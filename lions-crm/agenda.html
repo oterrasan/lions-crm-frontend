@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIONS CRM - Agenda</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .header {
+            background: #0A2540;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #D4AF37;
+            cursor: pointer;
+        }
+        
+        .date {
+            font-size: 13px;
+            color: #ccc;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 13px;
+        }
+        
+        .user-info {
+            text-align: right;
+        }
+        
+        .user-name {
+            font-weight: bold;
+            color: #D4AF37;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+        
+        .header-links a:hover {
+            color: #D4AF37;
+        }
+        
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+        
+        .sidebar {
+            width: 200px;
+            background: #1a1a1a;
+            color: white;
+            padding: 0;
+        }
+        
+        .menu-title {
+            background: #0A2540;
+            padding: 15px 20px;
+            font-weight: bold;
+            color: #D4AF37;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover {
+            background: #D4AF37;
+            color: #000;
+        }
+        
+        .menu-item.active {
+            background: #D4AF37;
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 30px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            color: #0A2540;
+            margin-bottom: 30px;
+        }
+        
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #0A2540;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #D4AF37;
+        }
+        
+        .btn-secondary {
+            background: #666;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #888;
+        }
+        
+        .tabs-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            padding: 0 20px;
+        }
+        
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+        }
+        
+        .tab:hover {
+            background: #f9f9f9;
+            color: #0A2540;
+        }
+        
+        .tab.active {
+            border-bottom-color: #D4AF37;
+            background: #fff;
+            color: #0A2540;
+            font-weight: bold;
+        }
+        
+        .tab-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #EF4444;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .filters {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .filter-group label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .table-container {
+            padding: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: #f5f5f5;
+        }
+        
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+        
+        tbody tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .time-cell {
+            font-weight: bold;
+            color: #0A2540;
+        }
+        
+        .client-cell strong {
+            color: #333;
+        }
+        
+        .subject-cell {
+            color: #666;
+        }
+        
+        .status-pending {
+            color: #F59E0B;
+        }
+        
+        .status-done {
+            color: #10B981;
+        }
+        
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .action-btn {
+            background: #D4AF37;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        
+        .action-btn:hover {
+            background: #0A2540;
+        }
+        
+        .action-btn-secondary {
+            background: #666;
+            color: white;
+        }
+        
+        .action-btn-secondary:hover {
+            background: #888;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .footer {
+            background: #1a1a1a;
+            color: #999;
+            text-align: center;
+            padding: 15px;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo" onclick="window.location.href='dashboard.html'">LIONS CRM</div>
+            <div class="date" id="currentDate"></div>
+        </div>
+        
+        <div class="header-right">
+            <div class="user-info">
+                <div class="user-name">Roberto Terrasan</div>
+                <div>Lions Corretora</div>
+            </div>
+            <div class="header-links">
+                <a href="#" onclick="alert('Funcionalidade em desenvolvimento'); return false;">Alterar Senha</a>
+                <a href="#" onclick="logout()">Sair</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="menu-title">Menu</div>
+            <div class="menu-item" onclick="window.location.href='dashboard.html'">Dashboard</div>
+            <div class="menu-item" onclick="window.location.href='clientes-lista.html'">Clientes</div>
+            <div class="menu-item" onclick="alert('Em desenvolvimento')">Contatos</div>
+            <div class="menu-item" onclick="alert('Em desenvolvimento')">Produtos</div>
+            <div class="menu-item" onclick="window.location.href='propostas.html'">Propostas</div>
+            <div class="menu-item active">Agenda</div>
+            <div class="menu-item" onclick="alert('Em desenvolvimento')">Relatórios</div>
+            <div class="menu-item" onclick="alert('Em desenvolvimento')">Configurações</div>
+        </div>
+        
+        <div class="content">
+            <h1 class="page-title">Agenda</h1>
+            
+            <div class="toolbar">
+                <button class="btn btn-primary" onclick="alert('Novo compromisso em desenvolvimento')">+ Novo Compromisso</button>
+                <button class="btn btn-secondary" onclick="alert('Filtros em desenvolvimento')">🔍 Filtros</button>
+                <button class="btn btn-secondary" onclick="alert('Exportar Excel em desenvolvimento')">📊 Exportar Excel</button>
+            </div>
+            
+            <div class="tabs-container">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab(0)">
+                        Hoje
+                    </div>
+                    <div class="tab" onclick="switchTab(1)">
+                        Atrasos
+                        <span class="tab-badge">3</span>
+                    </div>
+                    <div class="tab" onclick="switchTab(2)">
+                        Futuros
+                    </div>
+                    <div class="tab" onclick="switchTab(3)">
+                        Definir Período
+                    </div>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Responsável:</label>
+                        <select>
+                            <option value="1" selected>Roberto Terrasan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container" id="tabContent0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Cliente</th>
+                                <th>Assunto</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="time-cell">09:00</td>
+                                <td class="client-cell"><strong>João Silva dos Santos</strong></td>
+                                <td class="subject-cell">📞 Apresentar Dominion VidaPrev</td>
+                                <td class="status-pending">● Pendente</td>
+                                <td>
+                                    <button class="action-btn" onclick="alert('Concluir')">✓ Concluir</button>
+                                    <button class="action-btn action-btn-secondary" onclick="alert('Ver')">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">14:00</td>
+                                <td class="client-cell"><strong>Maria Costa Oliveira</strong></td>
+                                <td class="subject-cell">💬 Follow-up proposta MetLife</td>
+                                <td class="status-pending">● Pendente</td>
+                                <td>
+                                    <button class="action-btn" onclick="alert('Concluir')">✓ Concluir</button>
+                                    <button class="action-btn action-btn-secondary" onclick="alert('Ver')">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">16:00</td>
+                                <td class="client-cell"><strong>Tech Solutions Ltda</strong></td>
+                                <td class="subject-cell">🤝 Fechar contrato Azos</td>
+                                <td class="status-pending">● Pendente</td>
+                                <td>
+                                    <button class="action-btn" onclick="alert('Concluir')">✓ Concluir</button>
+                                    <button class="action-btn action-btn-secondary" onclick="alert('Ver')">Ver</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-container" id="tabContent1" style="display: none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Hora</th>
+                                <th>Cliente</th>
+                                <th>Assunto</th>
+                                <th>Dias Atrasado</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>15/10/2025</td>
+                                <td class="time-cell">10:00</td>
+                                <td class="client-cell"><strong>Dr. Pedro Henrique</strong></td>
+                                <td class="subject-cell">📞 Follow-up ANADEM</td>
+                                <td style="color: #EF4444; font-weight: bold;">2 dias</td>
+                                <td>
+                                    <button class="action-btn" onclick="alert('Concluir')">✓ Concluir</button>
+                                    <button class="action-btn action-btn-secondary" onclick="alert('Ver')">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>14/10/2025</td>
+                                <td class="time-cell">15:00</td>
+                                <td class="client-cell"><strong>Construtora ABC Ltda</strong></td>
+                                <td class="subject-cell">💬 Retomar negociação</td>
+                                <td style="color: #EF4444; font-weight: bold;">3 dias</td>
+                                <td>
+                                    <button class="action-btn" onclick="alert('Concluir')">✓ Concluir</button>
+                                    <button class="action-btn action-btn-secondary" onclick="alert('Ver')">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10/10/2025</td>
+                                <td class="time-cell">09:00</td>
+                                <td class="client-cell"><strong>Clínica Saúde Mais</strong></td>
+                                <td class="subject-cell">🤝 Apresentar Omint</td>
+                                <td style="color: #EF4444; font-weight: bold;">7 dias</td>
+                                <td>
+                                    <button class="action-btn" onclick="alert('Concluir')">✓ Concluir</button>
+                                    <button class="action-btn action-btn-secondary" onclick="alert('Ver')">Ver</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-container" id="tabContent2" style="display: none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Hora</th>
+                                <th>Cliente</th>
+                                <th>Assunto</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>20/10/2025</td>
+                                <td class="time-cell">10:00</td>
+                                <td class="client-cell"><strong>Ana Paula Rodrigues</strong></td>
+                                <td class="subject-cell">📞 Primeira reunião</td>
+                                <td class="status-pending">● Agendado</td>
+                                <td>
+                                    <button class="action-btn action-btn-secondary" onclick="alert('Ver')">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>25/10/2025</td>
+                                <td class="time-cell">14:30</td>
+                                <td class="client-cell"><strong>Empresa XYZ Ltda</strong></td>
+                                <td class="subject-cell">🤝 Apresentação Azos Empresarial</td>
+                                <td class="status-pending">● Agendado</td>
+                                <td>
+                                    <button class="action-btn action-btn-secondary" onclick="alert('Ver')">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>30/10/2025</td>
+                                <td class="time-cell">09:00</td>
+                                <td class="client-cell"><strong>Hospital São Lucas</strong></td>
+                                <td class="subject-cell">💬 Renovação contrato anual</td>
+                                <td class="status-pending">● Agendado</td>
+                                <td>
+                                    <button class="action-btn action-btn-secondary" onclick="alert('Ver')">Ver</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-container" id="tabContent3" style="display: none;">
+                    <div style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Definir Período Customizado</h3>
+                        <div style="display: flex; gap: 20px; align-items: flex-end;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600;">Data Início:</label>
+                                <input type="date" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600;">Data Fim:</label>
+                                <input type="date" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <button class="btn btn-primary" onclick="alert('Buscar em desenvolvimento')">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        LIONS CRM v1.0 © 2025 - Roberto Terrasan - Lions Corretora - Suporte: contato@oterrasan.com.br
+    </div>
+    
+    <script>
+        function updateDate() {
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const date = new Date().toLocaleDateString('pt-BR', options);
+            document.getElementById('currentDate').textContent = date;
+        }
+        
+        if (!localStorage.getItem('lions_user')) {
+            window.location.href = 'login.html';
+        }
+        
+        function logout() {
+            if (confirm('Deseja realmente sair?')) {
+                localStorage.removeItem('lions_user');
+                window.location.href = 'login.html';
+            }
+        }
+        
+        function switchTab(index) {
+            // Esconder todos os conteúdos
+            for (let i = 0; i < 4; i++) {
+                const content = document.getElementById('tabContent' + i);
+                if (content) content.style.display = 'none';
+            }
+            
+            // Mostrar o conteúdo selecionado
+            const selectedContent = document.getElementById('tabContent' + index);
+            if (selectedContent) selectedContent.style.display = 'block';
+            
+            // Atualizar tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab')[index].classList.add('active');
+        }
+        
+        updateDate();
+    </script>
+</body>
+</html>

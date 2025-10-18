@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIONS CRM - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0A2540 0%, #1a3a5a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo h1 {
+            color: #0A2540;
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .logo-sub {
+            color: #D4AF37;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .tagline {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #D4AF37;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: #0A2540;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn-login:hover {
+            background: #D4AF37;
+        }
+        
+        .links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+        
+        .links a {
+            color: #0A2540;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .links a:hover {
+            color: #D4AF37;
+            text-decoration: underline;
+        }
+        
+        .date {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            display: none;
+        }
+        
+        .version {
+            text-align: center;
+            color: #999;
+            font-size: 11px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="date" id="currentDate"></div>
+    
+    <div class="login-container">
+        <div class="logo">
+            <h1>LIONS CRM</h1>
+            <p class="logo-sub">Corretora de Seguros</p>
+        </div>
+        
+        <p class="tagline">Gestão completa de clientes e vendas</p>
+        
+        <div class="error" id="errorMsg"></div>
+        
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+            <div class="form-group">
+                <label for="login">Login:</label>
+                <input type="text" id="login" name="login" required autofocus>
+            </div>
+            
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required>
+            </div>
+            
+            <button type="submit" class="btn-login">ENTRAR</button>
+        </form>
+        
+        <div class="links">
+            <a href="#" onclick="alert('Funcionalidade em desenvolvimento'); return false;">Esqueceu sua senha?</a>
+            |
+            <a href="#" onclick="alert('Entre em contato com o administrador'); return false;">Cadastre-se</a>
+            |
+            <a href="#" onclick="alert('WhatsApp: (11) 99999-9999'); return false;">Contato</a>
+        </div>
+        
+        <div class="version">
+            LIONS CRM v1.0 © 2025 - Roberto Terrasan
+        </div>
+    </div>
+    
+    <script>
+        // Exibir data atual
+        function updateDate() {
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const date = new Date().toLocaleDateString('pt-BR', options);
+            document.getElementById('currentDate').textContent = date;
+        }
+        updateDate();
+        
+        // Função de login (temporária - será conectada ao backend depois)
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const login = document.getElementById('login').value;
+            const senha = document.getElementById('senha').value;
+            
+            // TEMPORÁRIO: Login de teste
+            if (login === 'admin' && senha === 'admin123') {
+                // Salvar sessão
+                localStorage.setItem('lions_user', login);
+                // Redirecionar para dashboard
+                window.location.href = 'dashboard.html';
+            } else {
+                // Mostrar erro
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.textContent = 'Login ou senha inválidos!';
+                errorMsg.style.display = 'block';
+                
+                setTimeout(() => {
+                    errorMsg.style.display = 'none';
+                }, 3000);
+            }
+            
+            return false;
+        }
+        
+        // Verificar se já está logado
+        if (localStorage.getItem('lions_user')) {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>
